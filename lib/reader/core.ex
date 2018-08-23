@@ -5,7 +5,7 @@ defmodule SourceCounter.Reader.Core do
   alias SourceCounter.Analyzer.Core, as: Analyzer
 
   @init_count_result %{total: 0, empty: 0, effective: 0, comment: 0}
-  @init_context %{}
+  @init_context %{} # TODO 添加源码语言类型
 
   @doc """
   读取源码信息

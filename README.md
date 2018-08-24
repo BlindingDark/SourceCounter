@@ -27,28 +27,28 @@ brew install erlang elixir
 ``` shell
 $ cd ./source_counter
 $ mix counter ./test/src/
-file:.\test\src/dir/hello.c total:7 empty:1 effective:5 comment:1
-file:.\test\src/folder/dir/hi.c total:5 empty:0 effective:5 comment:0
-file:.\test\src/hello.c total:19 empty:4 effective:7 comment:11
-file:.\test\src/folder/dir/hello.c total:7 empty:1 effective:5 comment:1
+file:dir/hello.c total:7 empty:1 effective:5 comment:1
+file:folder/dir/hi.c total:5 empty:0 effective:5 comment:0
+file:hello.c total:19 empty:4 effective:7 comment:11
+file:folder/dir/hello.c total:7 empty:1 effective:5 comment:1
 ```
 
 多个参数同时指定多个目录，每个目录一个线程，其中每个文件一个线程。
 
 ``` shell
-$ mix counter .\test\src\folder\ .\test\src\dir\
-file:.\test\src\folder/dir/hello.c total:7 empty:1 effective:5 comment:1
-file:.\test\src\folder/dir/hi.c total:5 empty:0 effective:5 comment:0
-file:.\test\src\dir/hello.c total:7 empty:1 effective:5 comment:1
+$ mix counter ./test/src/folder/ ./test/src/dir
+file:dir/hi.c total:5 empty:0 effective:5 comment:0
+file:hello.c total:7 empty:1 effective:5 comment:1
+file:dir/hello.c total:7 empty:1 effective:5 comment:1
 ```
 
 可混合指定目录和文件，目录一个线程，文件一个线程，目录中每个文件一个线程。
 
 ``` shell
-$ mix counter .\test\src\folder\ .\test\src\dir\hello.c
-file:.\test\src\dir\hello.c total:7 empty:1 effective:5 comment:1
-file:.\test\src\folder/dir/hi.c total:5 empty:0 effective:5 comment:0
-file:.\test\src\folder/dir/hello.c total:7 empty:1 effective:5 comment:1
+$ mix counter ./test/src/folder/ ./test/src/dir/hello.c
+file:dir/hi.c total:5 empty:0 effective:5 comment:0
+file:dir/hello.c total:7 empty:1 effective:5 comment:1
+file:./test/src/dir/hello.c total:7 empty:1 effective:5 comment:1
 ```
 
 ### 运行测试

@@ -21,11 +21,13 @@ defmodule SourceCounter.Analyzer.C do
 
   def is_effective({result, context}, string) do
     cond do
-      Core.in_comment?(context) && (not _end_of_comment?(string))->
+      Core.in_comment?(context) && not _end_of_comment?(string) ->
         {result, context}
+
       # 去掉 // 和 /* 之后的，以及 */ 之前的，如果 trim 后仍然存在则是有效行
       _has_effective?(string) ->
         {Core.put_effective(result), context}
+
       true ->
         {result, context}
     end
@@ -36,12 +38,14 @@ defmodule SourceCounter.Analyzer.C do
       # 如果在多行注释中，且为空行，空行 + 1，上下文不变
       Core.in_comment?(context) && _empty?(string) ->
         {Core.put_empty(result), context}
+
       # 如果在多行注释中，且为多行注释末尾，注释 + 1，多行注释结束
       Core.in_comment?(context) && _end_of_comment?(string) ->
         {
           Core.put_comment(result),
           Core.delete_in_comment(context)
         }
+
       # 如果在多行注释中，注释 + 1
       # 如果是注释，且为单行注释或一行的多行注释，注释 + 1
       Core.in_comment?(context) || _one_line_comment?(string) ->
@@ -53,6 +57,7 @@ defmodule SourceCounter.Analyzer.C do
           Core.put_comment(result),
           Core.put_in_comment(context)
         }
+
       true ->
         {result, context}
     end
@@ -75,8 +80,7 @@ defmodule SourceCounter.Analyzer.C do
   end
 
   defp _one_line_comment?(string) do
-    (_begin_of_comment?(string) && _end_of_comment?(string))
-    || _normal_comment?(string)
+    (_begin_of_comment?(string) && _end_of_comment?(string)) || _normal_comment?(string)
   end
 
   defp _has_effective?(string) do
@@ -102,8 +106,10 @@ defmodule SourceCounter.Analyzer.C do
 
   defp _drop_pre(string, splitter) do
     result = String.split(string, splitter, parts: 2)
+
     if 2 == length(result) do
       [_h, t] = result
+
       if String.contains?(t, splitter) do
         _drop_pre(t, splitter)
       else

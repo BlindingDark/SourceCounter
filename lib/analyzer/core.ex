@@ -1,6 +1,6 @@
 defmodule SourceCounter.Analyzer.Core do
   @moduledoc """
-  分析代码成分
+  处理每一行代码
   """
 
   @type result() :: map
